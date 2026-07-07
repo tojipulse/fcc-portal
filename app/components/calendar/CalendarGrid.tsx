@@ -1,74 +1,26 @@
-"use client";
-
-import { useState } from "react";
 import { scheduleEvents } from "../../data/calendarData";
-import { generateCalendarDays } from "../../utils/calendarUtils";
-import CalendarHeader from "./CalendarHeader";
 
-type CalendarProps = {
+type CalendarGridProps = {
+  calendarDays: string[][];
+  year: number;
+  month: number;
   selectedDate: string;
   onSelectDate: (date: string) => void;
 };
 
-export default function Calendar({
+export default function CalendarGrid({
+  calendarDays,
+  year,
+  month,
   selectedDate,
   onSelectDate,
-}: CalendarProps) {
-  const today = new Date();
-
-  const [year, setYear] = useState(today.getFullYear());
-  const [month, setMonth] = useState(today.getMonth() + 1);
-
-  const calendarDays = generateCalendarDays(year, month);
-
-  const selectFirstDay = (targetYear: number, targetMonth: number) => {
-    const dateText = `${targetYear}-${String(targetMonth).padStart(2, "0")}-01`;
-    onSelectDate(dateText);
-  };
-
-  const handlePrevMonth = () => {
-    if (month === 1) {
-      const newYear = year - 1;
-      const newMonth = 12;
-      setYear(newYear);
-      setMonth(newMonth);
-      selectFirstDay(newYear, newMonth);
-      return;
-    }
-
-    const newMonth = month - 1;
-    setMonth(newMonth);
-    selectFirstDay(year, newMonth);
-  };
-
-  const handleNextMonth = () => {
-    if (month === 12) {
-      const newYear = year + 1;
-      const newMonth = 1;
-      setYear(newYear);
-      setMonth(newMonth);
-      selectFirstDay(newYear, newMonth);
-      return;
-    }
-
-    const newMonth = month + 1;
-    setMonth(newMonth);
-    selectFirstDay(year, newMonth);
-  };
-
+}: CalendarGridProps) {
   const getDateText = (day: string) => {
     return `${year}-${String(month).padStart(2, "0")}-${day.padStart(2, "0")}`;
   };
 
   return (
-    <section className="px-5 py-6">
-      <CalendarHeader
-        year={year}
-        month={month}
-        onPrevMonth={handlePrevMonth}
-        onNextMonth={handleNextMonth}
-      />
-
+    <>
       <div className="grid grid-cols-7 text-center text-lg font-bold">
         {["日", "月", "火", "水", "木", "金", "土"].map((d) => (
           <div key={d} className={d === "日" ? "text-red-600" : ""}>
@@ -100,8 +52,8 @@ export default function Calendar({
                       selected
                         ? "flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white"
                         : isSunday && day !== ""
-                        ? "text-red-700"
-                        : ""
+                          ? "text-red-700"
+                          : ""
                     }
                   >
                     {day}
@@ -116,6 +68,6 @@ export default function Calendar({
           </div>
         ))}
       </div>
-    </section>
+    </>
   );
 }

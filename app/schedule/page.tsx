@@ -7,8 +7,17 @@ import Calendar from "../components/calendar/Calendar";
 import { scheduleEvents } from "../data/calendarData";
 import { formatJapaneseDate } from "../utils/calendarUtils";
 
+function getTodayText() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
 export default function SchedulePage() {
-  const [selectedDate, setSelectedDate] = useState("2026-07-12");
+  const [selectedDate, setSelectedDate] = useState(getTodayText());
 
   const selectedEvents = scheduleEvents.filter(
     (event) => event.date === selectedDate

@@ -1,7 +1,3 @@
-export const selectedDay = "12";
-
-export const eventDays = ["10", "15"];
-
 export const scheduleEvents = [
   {
     id: 1,
@@ -14,7 +10,7 @@ export const scheduleEvents = [
   },
   {
     id: 2,
-    date: "2026-07-12",
+    date: "2026-07-15",
     type: "試合",
     color: "bg-blue-600",
     title: "練習試合 vs ○○FC",
